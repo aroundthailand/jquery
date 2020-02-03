@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>jQuery - Selectors</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+      * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+             box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+
+    <header>
+        <h1>jQuery - Selector</h1>
+    </header>
+
+    <section class="section" id="section-1">
+      <h2 class="section__header" id="header-1">First Header in Section 1</h2>
+      <p class="section__text">Some text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words</p>
+    </section>
+
+    <section  class="section" id="section-2">
+      <h2 class="section__header" id="header-2">First Header in Section 2</h2>
+      <p class="section__text">Some text is here many words text is here many words text is here many words text is here many words text is here <span>many words text is here many words text is here many</span> words text is here many words text is here many words text is here many words</p>
+
+      <ul class="section__list" id="list_1">
+        <li>Some text</li>
+        <li>Some text</li>
+        <li>Some text</li>
+        <li>Some text</li>
+        <li>Some text</li>
+      </ul>
+    </section>
+
+    <input type="button" value="Button 1">
+    <input type="submit" value="Button 2">
+    <input type="text" value="Button 1">
+
+    <a href="https://google.ru">googleapis</a>
+    <a href="https://yandex.ru">yandex</a>
+    <script>
+
+      $('#header-1').css('color', 'red');
+      $('.section__header').css('color', 'blue');
+
+      $('p span').css('color', 'red');
+      $('span').css('color', 'red');
+
+      $('ul li:first').css('color', 'red');
+      $('ul li:last').css('color', 'red');
+      $('ul li:odd').css('background-color', 'red');
+      $('ul li:even').css('background-color', 'yellow');
+      $('ul li:nth-child(3n)').css('list-style', 'none');
+
+      $(':button').hide()
+
+      $('a[href="https://yandex.ru"]').css('color', 'red');
+      $('[href="https://google.ru"]').css('color', 'green');
+
+      //will hide all elements on the page
+      //$('*').hide();
+
+    </script>
+  </body>
+</html>
