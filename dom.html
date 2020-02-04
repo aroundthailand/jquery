@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>jQuery - DOM</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+      * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+             box-sizing: border-box;
+      }
+
+      .header__main-header {
+        padding: 20px;
+        text-align:center;
+        color: #fff;
+        background: #000;
+      }
+      .my-class{
+        background: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+        <h1 class="header__main-header">jQuery - DOM Manipulation</h1>
+    </header>
+    <a href="http://www.ru">Link is here</a>
+    <section class="section-form">
+      <button id="button-1">Button 1</button>
+      <p class="section-form__paragraph-1">This is  paragraph 1</p>
+      <p class="section-form__paragraph-2">This is paragraph 2</p>
+      <div id="section-form__div"></div>
+      <input type="text" id="section-form__input-to-the-list" name="new-list">
+      <ul>
+        <li>List item 1</li>
+        <li>List item 2</li>
+        <li>List item 3</li>
+        <li>List item 4</li>
+        <li>List item 5</li>
+        <li>List item 6</li>
+      </ul>
+
+      <a href="http://www.ru">Link is here</a>
+      <a href="http://www.ru">Link is here</a>
+    </section>
+
+    <script>
+      $(document).ready(function(){
+        //Add multiple css parameters
+        $('p.section-form__paragraph-1').css({color: 'red', background: '#ccc'});
+        //Add class to the element
+        $('p.section-form__paragraph-2').addClass('my-class');
+        //Remove class
+        $('p.section-form__paragraph-2').removeClass('my-class');
+        //We can toggle class with method .toggleClass
+        $('#button-1').click(function(){
+          $('p.section-form__paragraph-2').toggleClass('my-class');
+        });
+        //method .text add text into element and erase previuse one
+        $('#section-form__div').text('Hello Buddy');
+        //but it doesn't support html tags
+        $('#section-form__div').text('<p>Hello Buddy1</p>');
+        //Method .html() do the same but with support of html tags
+        $('#section-form__div').html('<h3>Hello Buddy2</h3>');
+
+        //We can also get html code that target element contains with method .html()
+        console.log($('#section-form__div').html());
+        //Or just plain text with method .text()
+        console.log($('#section-form__div').text());
+        //we also can use .append() method to add html or text and it'll not erase data from target object. This method add new content at the end of the element
+        $('ul').append('<li>New list item</li>');
+        //.prepend() Works the same as append() method but add the text and the beggining of the element
+        $('ul').prepend('<li>New list item TOP</li>');
+        //AppendTo
+        $('p.section-form__paragraph-1').appendTo('p.section-form__paragraph-2');
+        $('p.section-form__paragraph-1').prependTo('p.section-form__paragraph-2')
+
+        $('ul').before('<h2>This is Before</h2>');
+        $('ul').after('<h2>This is After</h2>');
+        //.empty() method removes not only child (and other descendant) elements, but also any text within the set of matched elements. This is because, according to the DOM specification, any string of text within an element is considered a child node of that element.
+        //If you want to remove elements without destroying their data or event handlers (so they can be re-added later), use .detach() instead.
+        //$('ul').empty();
+        //$('ul').detach();
+
+        //.attr() add attribute to the target element
+        $('a').attr('target', '_blank');
+        //it also return the requested attribute value
+        console.log($('a').attr('href'));
+
+        //To remove attribute we can use method removeAttr()
+        $('a').removeAttr('target');
+        //We can wrap element with another element. In this cae we don't need to write closed tag. This method wrap each a tags with h2 tags
+        $('a').wrap('<h2>');
+        //.wrapAll() will take all elements on the page and wrap them together in one h2 tag
+        $('a').wrapAll('<h2>');
+
+        $('#section-form__input-to-the-list').keyup(function(e){
+          var code = e.which;
+          if(code == 13){
+            e.preventDefault();
+            $('ul').prepend('<li>'+e.target.value+'</li>')
+          }
+        });
+
+        //Create myArray
+        var myArray = ['Beb', 'Bib', 'Pip', 'Sip'];
+        //This is loop for Array it has 2 variables cycle count and value
+        $.each(myArray, function(i, val){
+          $('p').append(val  + ', ');
+        });
+
+        //To create array from DOM we can use .toArray() method
+        var newArray = $('ul li').toArray();
+
+        //To access the data we can use loop method as below
+        $.each(newArray, function(i, val){
+          if(val.innerHTML == 'List item 3'){
+            val.innerHTML = 'This is private list! Access denied!'
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
