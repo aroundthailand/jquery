@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>jQuery - Selectors</title>
+    <title>jQuery - Selectors & Events</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style>
       * {
@@ -25,8 +25,62 @@
   <body>
 
     <header>
-        <h1 class="header__main-header">jQuery - Selectors</h1>
+        <h1 class="header__main-header">jQuery - Selectors & Events</h1>
     </header>
+
+    <section class="section-form">
+      <form class="" id="section-form" action="index.html" method="post">
+        <label for="name">Name:</label>
+        <input type="text" name="name" placeholder="Enter your name" id="name"><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" pattern=".+@.+" size="30" required><br>
+        <label for="gender">Gender:</label>
+        <input type="text" list="genders" id="gender"><br>
+        <datalist id="genders">
+          <option value="Male">
+          <option value="Fmale">
+        </datalist>
+        <input type="submit">
+      </form>
+
+      <script>
+
+        //Keyword this dosen't work when write function with short method e.g () => {}
+        $(document).ready(function(){
+          //If we focus on any iput tag we'll do the code
+          $('input').focus(function(){
+            //Keyword "this" mention that we have to use current element
+            $(this).css('background', 'red');
+          });
+
+          //.blur method starts work when we unfocus this element
+          $('input').blur(function(){
+            $(this).css('background', 'white');
+          });
+
+          //Method keyup starts work when some key on keyboard is pressed and realeased
+          $('input').keyup(function(e){
+            console.log(e.target.value);
+          });
+
+          //
+          $('input#gender').change(function(e){
+            alert(e.target.value);
+          });
+
+          $('#section-form').submit(function(e){
+            //preventDefault method will break defult action and let us use our code instead
+            e.preventDefault();
+
+            //define variable with name name and value as the value from input name field.
+            var name = $('input#name').val();
+
+            console.log(name);
+          });
+
+        });
+      </script>
+    </section>
 
     <section class="section" id="section-1">
       <h2 class="section__header" id="header-1">First Header in Section 1</h2>
@@ -75,5 +129,52 @@
       //$('*').hide();
 
     </script>
+    <section class="section-mouse-events">
+      <h2 class="section-mouse-events__main-header">Mouse Events</h2>
+      <button type="button" name="button-2" id="button-1">Button 1</button>
+      <button type="button" name="button-2" id="button-2">Button 2</button>
+      <button type="button" name="button-3" id="button-3">Button 3</button>
+      <button type="button" name="button-4" id="button-4">Button 4</button>
+
+      <p class="section-mouse-events__paragraph">Some text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words text is here many words</p>
+
+    </section>
+    <script>
+      //The first part is awating when documents is ready and only after that it'll inicialize the code
+      $(document).ready(() => {
+        $('#button-1').click(() => {
+          //Hide element from the screen on a click
+          //$('.section-mouse-events__paragraph').hide(500);
+
+          //Toggle - is hide on a first click and hide on the second click
+          $('.section-mouse-events__paragraph').toggle(500);
+        });
+
+        //Click is also can be reproduce by mouseup and mousedown events
+        $('#button-2').on('click', () => {
+          $('.section-mouse-events__paragraph').show(500);
+        })
+
+        //Hover dosen't work with .on(). If we want to use same event with on method we should use mouseenter and mouseleave
+        $('#button-3').hover(() => {
+          $('.section-mouse-events__paragraph').toggle(500);
+        })
+
+        $('#button-4').click((e) => {
+          alert(e.currentTarget.outerHTML);
+        })
+
+        //Get X n Y coords of cursor on mouse move on etire document
+        $(document).on('mousemove', (events) => {
+
+          //.html replace text in the target with new text
+          //.append add text to the target element and not erase previouse added
+          $('.section-mouse-events__main-header').html(`Coords Y: ${events.clientY} X: ${events.clientX}`);
+        });
+      });
+    </script>
+    <hr>
+
+
   </body>
 </html>
