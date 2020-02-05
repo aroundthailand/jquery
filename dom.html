@@ -100,6 +100,7 @@
         $('a').wrapAll('<h2>');
 
         $('#section-form__input-to-the-list').keyup(function(e){
+          //e.which  return code of key on a keyboard. Each key has it own code. For the key enter the code is 13
           var code = e.which;
           if(code == 13){
             e.preventDefault();
@@ -120,7 +121,7 @@
         //To access the data we can use loop method as below
         $.each(newArray, function(i, val){
           if(val.innerHTML == 'List item 3'){
-            val.innerHTML = 'This is private list! Access denied!'
+            val.innerHTML = i + '- is private list! Access denied!'
           }
         });
       });

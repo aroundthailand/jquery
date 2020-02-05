@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>jQuery - Animation & Effects</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+      * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+             box-sizing: border-box;
+      }
+
+      .header__main-header {
+        padding: 20px;
+        text-align:center;
+        color: #fff;
+        background: #000;
+      }
+
+      .section-one__my-box{
+        width: 500px;
+        height: 90px;
+        color: #fff;
+        background: #555;
+        text-align: center;
+        display: inline-block;
+      }
+
+      .section-one__my-box-2{
+        position: relative;
+        background: #111;
+        width: 100px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+        <h1 class="header__main-header">jQuery - Animation & Effects</h1>
+    </header>
+    <section class="section-one">
+      <button type="button" id="fade-out">Fade Out</button>
+      <button type="button" id="fade-in">Fade In</button>
+      <button type="button" id="fade-toggle">Fade Toogle</button>
+      <hr>
+      <button type="button" id="slide-up">Slide Up</button>
+      <button type="button" id="slide-down">Slide Down</button>
+      <button type="button" id="slide-toggle">Slide Toogle</button>
+      <hr>
+      <button type="button" id="stop">STOP</button>
+      <hr>
+      <div class="section-one__my-box">
+        <h1>Hello World!</h1>
+      </div>
+
+      <hr>
+      <hr>
+      <button type="button" id="move-left">Move Left</button>
+      <button type="button" id="move-right">Move Right</button>
+      <button type="button" id="move-around">Move Around</button>
+      <hr>
+      <div class="section-one__my-box section-one__my-box-2">
+        <h1>Hello World!</h1>
+      </div>
+    </section>
+
+    <script>
+      $(document).ready(function(){
+        $('#fade-out').click(function(){
+          //fadeOut() accept 2 parameters execution time and call back function. Call back function will be executed after the effect
+          $('.section-one__my-box').fadeOut(1000, function(){
+            $('#fade-out').text('Its gone!');
+          });
+        });
+
+        $('#fade-in').click(function(){
+          $('.section-one__my-box').fadeIn(1000);
+        });
+
+        $('#fade-toggle').click(function(){
+          $('.section-one__my-box').fadeToggle(1000);
+        });
+
+        $('#slide-up').click(function(){
+          //fadeOut() accept 2 parameters execution time and call back function. Call back function will be executed after the effect
+          $('.section-one__my-box').slideUp('slow', function(){
+            $('#slide-up').text('Its gone!');
+          });
+        });
+
+        $('#slide-down').click(function(){
+          $('.section-one__my-box').slideDown(1000);
+        });
+
+        $('#slide-toggle').click(function(){
+          $('.section-one__my-box').slideToggle(1000);
+        });
+
+        $('#stop').click(function(){
+          //Method stop will pause the animation
+          $('.section-one__my-box').stop();
+        });
+
+        //If i don't know exac height I could write it first to variable before modify it
+        var defaultHeight = $('.section-one__my-box-2').css('height');
+        var defaultWidth = $('.section-one__my-box-2').css('width');
+
+        $('#move-right').click(function(){
+          $('.section-one__my-box-2').animate({
+            left: 100,
+            height: '500px',
+            width: '300px',
+            opacity: '0.5'
+          })
+        });
+
+        $('#move-left').click(function(){
+          $('.section-one__my-box-2').animate({
+            left: 0,
+            height: defaultHeight,
+            width: defaultWidth,
+            opacity: '1'
+          })
+        });
+
+        $('#move-around').click(function(){
+          var box = $('.section-one__my-box-2');
+          box.animate({
+            left: 300
+          });
+          box.animate({
+            top: 300
+          });
+          box.animate({
+            left: 0,
+            top: 300
+          });
+          box.animate({
+            top: 0,
+            left: 0
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
