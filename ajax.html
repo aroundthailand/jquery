@@ -93,6 +93,7 @@
         //.ajax() method we use to access the data from the remote server
         //In the example below we load the data from remote server via ajax() method after the user make a click on the buttom
         $('#load-data').click(function(){
+          $('#result').text('Please wait we\'re loading the data for you');
           $.ajax({
             method: 'GET',
             url: 'https://jsonplaceholder.typicode.com/posts',
@@ -100,7 +101,7 @@
           }).done(function(data){
             console.log(data);
             $.map(data, function(post, i){
-              $('#result').append('<h3>'+post.title+'</h3><p>'+post.body+'</p>');
+              $('#result').html('<h3>'+post.title+'</h3><p>'+post.body+'</p>');
             });
           });
         });
