@@ -41,7 +41,8 @@
         <h1 class="header__main-header">jQuery - AJAX</h1>
     </header>
     <section class="section-one">
-      <button id="load-data" type="button" name="button">Load Data</button>
+      <button id="load-data" type="button" name="button">Load Data (Post)</button>
+      <button id="load-data-get" type="button" name="button">Load Data (Get)</button>
       <hr>
 
       <div id="result">
@@ -69,7 +70,8 @@
     <script>
       $(document).ready(function(){
         //The .load() is AJAX method that could get data from target file and load it to a target object. E.g. We load content from file test_for_ajax.html to div with id result.
-        $('#result').load('test_for_ajax.html', function(responseTxt, statusTxt, xhr) {
+        //If after an url we add space and tag/selector/id of the elements we'll get only conttent of it. If we want to get content of more that 1 element we have to write it separate with a ','.
+        $('#result').load('test_for_ajax.html h2, h3', function(responseTxt, statusTxt, xhr) {
           console.log(`${responseTxt}, ${statusTxt}, ${xhr}`)
           if(statusTxt == 'success'){
             console.log('It went fine!');
@@ -77,6 +79,7 @@
             alert('Error' +xhr.statusText);
           }
         });
+
         //.get() the second method how we can load the conent from other document with Ajax
         $.get('test_for_ajax.html', function(data){
           $('#result-2').html(data);
@@ -121,6 +124,19 @@
             console.log('Post saved');
             console.log(data);
           });
+        });
+
+        //In this part I execute ajax .get() method on a click of the buttom.
+        //I also setTimeout to simulates load time from the server
+        $('#load-data-get').click(function(){
+          var url = 'users.json';
+          setTimeout(() => {$.get(url,function(data){
+              $.each(data, function(i, names){
+                console.log(names.firstName);
+              });
+              console.log(data);
+            },'json');
+          }, 10000);
         });
       });
 
