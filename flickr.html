@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Get Photos from flickr via jQuery (AJAX)</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+      * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+             box-sizing: border-box;
+      }
+      .photo-list-links{
+        padding: 0;
+        margin: 0;
+      }
+      .photo-list-links li{
+        display: inline-block;
+      }
+      .gallery{
+        position: absolute;
+        top: 250px;
+        lef: 0;
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+        <h1 class="header__main-header">Get Photos from flickr via jQuery (AJAX)</h1>
+    </header>
+    <section class="section-one">
+      <button id="load-data" type="button" name="button">Load Data</button>
+      <hr>
+
+      <div id="gallery">
+        <h2>Result 1</h2>
+
+        <ul class="photo-list-links" id="photo-list-links">
+
+        </ul>
+        <div id="result"></div>
+        <div id="buttons"></div>
+      </div>
+    </section>
+
+    <script>
+      $(document).ready(function(){
+
+        var url = [];
+        //this method work when I want to call method on dynamic created elements
+        // For example, if your page was dynamically creating elements with the class name dosomething you would bind the event to a parent which already exists (this is the nub of the problem here, you need something that exists to bind to, don't bind to the dynamic content), this can be (and the easiest option) is document. Though bear in mind document may not be the most efficient option.
+        //$(document).on('mouseover mouseout', '.dosomething', function(){
+        // what you want to happen when mouseover and mouseout
+        // occurs on elements that match '.dosomething'
+        //});
+        $('#photo-list-links').on('click', 'li a',function(element){
+          element.preventDefault();
+          //debug
+          //console.log(element);
+          //console.log("url:" + element.currentTarget.attributes['data-url'].value);
+          //console.log("id:" + element.currentTarget.attributes['data-id'].value);
+          $("#result").html('<img src="' + element.currentTarget.attributes['data-url'].value + '" data-id="' + element.currentTarget.attributes['data-id'].value +'">');
+        });
+
+
+
+
+        $('#buttons').on('click','#next', function(element){
+          element.preventDefault();
+
+          if(element.currentTarget.attributes['data-id'].value <=19){
+              $("#result").html('<img src="' + url[element.currentTarget.attributes['data-id'].value] + '" data-id="' + element.currentTarget.attributes['data-id'].value +'">');
+              element.currentTarget.attributes['data-id'].value++;
+          }
+
+          //Debug
+          console.log(url);
+          console.log(element.currentTarget.attributes['data-id'].value);
+          console.log(element.currentTarget.attributes['data-max'].value);
+          //$("#result").html('<img src="' + element.currentTarget.attributes.data-url.value + '" data-id="' + element.currentTarget.attributes.data-id.value +'">');
+        });
+
+        $('#buttons').on('click','#previouse', function(element){
+          element.preventDefault();
+          var previouse;
+
+          if (element.currentTarget.attributes['data-id'].value <= 1){
+            previouse = $('#next').attr('data-id') - 2;
+            element.currentTarget.attributes['data-id'].value = previouse;
+          } else {
+            previouse = element.currentTarget.attributes['data-id'].value--;
+          }
+
+
+
+
+          $("#result").html('<img src="' + url[previouse] + '" data-id="' + previouse +'">');
+
+
+          //Debug
+          console.log(url[previouse]);
+          console.log('Prev: ' +previouse);
+          console.log('Prev 2: ' +element.currentTarget.attributes['data-id'].value);
+
+          //$("#result").html('<img src="' + element.currentTarget.attributes.data-url.value + '" data-id="' + element.currentTarget.attributes.data-id.value +'">');
+        });
+
+        $('#load-data').click(function(){
+          $('#result').append('<p><img src="img/giphy.gif" width="90px" alt=""></p>');
+          $.ajax({
+              type: 'GET',
+              url: 'http://api.flickr.com/services/feeds/photos_public.gne',
+              data: 'id=29080075@N02&lang=en-us&format=json&jsoncallback=?',
+              success: function(feed){
+                console.log(feed.items[0].media.m);
+                $('#result').text('');
+                $('#photo-list-links').text('');
+                var j = 1;
+
+                $("#result").html('<img src="' + feed.items[0].media.m.replace('_m.jpg','.jpg') + '">');
+                $.each(feed.items, function(i, item){
+                    url.push(feed.items[i].media.m.replace('_m.jpg','.jpg'));
+                    $('#photo-list-links').append('<li><a href="#" data-id="' + i + '" data-url="' + url[i] + '">['+ j +']</a></li>');
+                    j++;
+                })
+
+                $('#buttons').html('<a href="#" id="previouse" data-id="1">Previouse</a> | <a href="#" id="next" data-id="1" data-max="' + feed.items.length + '">Next</a>');
+              },
+              dataType: 'jsonp'
+          });
+        });
+
+
+      });
+    </script>
+  </body>
+</html>
